@@ -40,7 +40,14 @@ public class ProdutoController {
             return false;
         }
     }
-
+    
+    public Produto pesquisa(int id){
+        for(int i=0;i<dados.size();i++){
+            if(dados.get(i).getId()==id)
+                return dados.get(i);
+        }
+        return null;
+    }
     
     public String mostraTudo(){
         String retorno="";

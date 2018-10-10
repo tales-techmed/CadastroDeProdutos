@@ -1,6 +1,7 @@
 package View;
 
 import Controller.ProdutoController;
+import Model.Produto;
 import javax.swing.JOptionPane;
 
 public class ProdutoView extends javax.swing.JFrame {
@@ -283,6 +284,12 @@ public class ProdutoView extends javax.swing.JFrame {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void btOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOkActionPerformed
+        Produto p = controller.pesquisa(Integer.parseInt(cId.getText()));
+        if(p!=null){
+            cNome.setText(p.getNome());
+            cPreco.setText(String.valueOf(p.getPreco()));
+            cEstoque.setText(String.valueOf(p.getQuantidade()));
+        }
         configuraTela("ok");
     }//GEN-LAST:event_btOkActionPerformed
 
