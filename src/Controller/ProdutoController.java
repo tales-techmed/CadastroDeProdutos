@@ -41,12 +41,42 @@ public class ProdutoController {
         }
     }
     
+    public boolean edita(String id, String nome, String preco, String estoque){
+        //encontra a posição do produto na lista
+        int i;
+        for(i=0;i<dados.size();i++){
+            if(dados.get(i).getId()==Integer.parseInt(id))
+                break;
+        }
+        //atualiza os dados na lista
+        try{
+            if(i!=dados.size()){
+                dados.set(i,new Produto(Integer.parseInt(id),nome,
+                        Float.parseFloat(preco),Float.parseFloat(estoque)));
+            }
+            return true;
+        } catch(Exception e){
+            return false;
+        }
+    }
+    
     public Produto pesquisa(int id){
         for(int i=0;i<dados.size();i++){
             if(dados.get(i).getId()==id)
                 return dados.get(i);
         }
         return null;
+    }
+    
+    public boolean delete(String id){
+        //encontra a posição do produto na lista
+        int i;
+        for(i=0;i<dados.size();i++){
+            if(dados.get(i).getId()==Integer.parseInt(id))
+                break;
+        }
+        dados.remove(i);
+        return true;
     }
     
     public String mostraTudo(){

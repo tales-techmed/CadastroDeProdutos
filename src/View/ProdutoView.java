@@ -7,11 +7,13 @@ import javax.swing.JOptionPane;
 public class ProdutoView extends javax.swing.JFrame {
 
     ProdutoController controller;
+    int flag; //0-novo, 1-editar
     
     public ProdutoView() {
         super("Cadastro de Produtos");
         initComponents();
         configuraTela("inicio");
+        flag=0;
         controller = new ProdutoController();
     }
 
@@ -255,24 +257,39 @@ public class ProdutoView extends javax.swing.JFrame {
     private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
         configuraTela("novo");
         cNome.requestFocus();
+        this.flag=0;
     }//GEN-LAST:event_btNovoActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        if(!controller.insere(cNome.getText(),
-                          cPreco.getText(),
-                          cEstoque.getText()))
-        {
-            JOptionPane.showMessageDialog(null,"Erro!");
+        if(this.flag==0){
+            if(!controller.insere(cNome.getText(),
+                              cPreco.getText(),
+                              cEstoque.getText()))
+            {
+                JOptionPane.showMessageDialog(null,"Erro!");
+            }
+        } else {
+            if(!controller.edita(cId.getText(),
+                              cNome.getText(),
+                              cPreco.getText(),
+                              cEstoque.getText()))
+            {
+                JOptionPane.showMessageDialog(null,"Erro!");
+            }
         }
-        
         cConsulta.setText(controller.mostraTudo());
+        limpardados();
         configuraTela("inicio");
     }//GEN-LAST:event_btSalvarActionPerformed
 
-    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+    private void limpardados(){
         cNome.setText("");
         cPreco.setText("");
         cEstoque.setText("");
+    }
+    
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        limpardados();
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
@@ -280,6 +297,7 @@ public class ProdutoView extends javax.swing.JFrame {
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        
         configuraTela("inicio");
     }//GEN-LAST:event_btCancelarActionPerformed
 
@@ -295,9 +313,13 @@ public class ProdutoView extends javax.swing.JFrame {
 
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
         configuraTela("editar");
+        this.flag=1;
     }//GEN-LAST:event_btEditarActionPerformed
 
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
+        controller.delete(cId.getText());
+        cConsulta.setText(controller.mostraTudo());
+        limpardados();
         configuraTela("inicio");
     }//GEN-LAST:event_btDeletarActionPerformed
 
