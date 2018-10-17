@@ -3,6 +3,9 @@ package View;
 import Controller.ProdutoController;
 import Model.Produto;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class ProdutoView extends javax.swing.JFrame {
 
@@ -15,6 +18,19 @@ public class ProdutoView extends javax.swing.JFrame {
         configuraTela("inicio");
         flag=0;
         controller = new ProdutoController();
+        tblProdutos.setModel(controller.getModeloTabela()); // modelo
+       /* tblProdutos.getColumnModel().getColumn(0).setPreferredWidth(20);//tamanho das colunas
+        tblProdutos.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tblProdutos.getColumnModel().getColumn(2).setPreferredWidth(70);
+        tblProdutos.getColumnModel().getColumn(3).setPreferredWidth(70);
+        tblProdutos.getTableHeader().setResizingAllowed(false);//não deixa alterar a largua
+        tblProdutos.getTableHeader().setReorderingAllowed(false);//não deixa trocar as colunas de lugar
+        tblProdutos.setAutoCreateRowSorter(true);// habilitar a ordenação de dados por coluna
+        tblProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // selecionar apenas uma linha
+        DefaultTableCellRenderer r = new DefaultTableCellRenderer(); // alinhamento
+        r.setHorizontalAlignment(SwingConstants.RIGHT); //alinhamento a direita
+        tblProdutos.getColumnModel().getColumn(2).setCellRenderer(r);
+        tblProdutos.getColumnModel().getColumn(3).setCellRenderer(r);*/
     }
 
     @SuppressWarnings("unchecked")
@@ -42,8 +58,8 @@ public class ProdutoView extends javax.swing.JFrame {
         cEstoque = new javax.swing.JTextField();
         btOk = new javax.swing.JButton();
         painelConsulta = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        cConsulta = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblProdutos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -209,25 +225,34 @@ public class ProdutoView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        cConsulta.setColumns(20);
-        cConsulta.setRows(5);
-        jScrollPane1.setViewportView(cConsulta);
-
         javax.swing.GroupLayout painelConsultaLayout = new javax.swing.GroupLayout(painelConsulta);
         painelConsulta.setLayout(painelConsultaLayout);
         painelConsultaLayout.setHorizontalGroup(
             painelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         painelConsultaLayout.setVerticalGroup(
             painelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        tblProdutos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProdutosMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblProdutos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -235,8 +260,16 @@ public class ProdutoView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(painelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(painelBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(painelDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(painelConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(painelDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(painelConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,7 +280,11 @@ public class ProdutoView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(painelDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(painelConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(painelConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -277,12 +314,16 @@ public class ProdutoView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Erro!");
             }
         }
-        cConsulta.setText(controller.mostraTudo());
+        //cConsulta.setText(controller.mostraTudo());
+        tblProdutos.setAutoCreateRowSorter(false);
+        tblProdutos.revalidate();
+        tblProdutos.setAutoCreateRowSorter(true);
         limpardados();
         configuraTela("inicio");
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void limpardados(){
+        cId.setText("");
         cNome.setText("");
         cPreco.setText("");
         cEstoque.setText("");
@@ -314,14 +355,40 @@ public class ProdutoView extends javax.swing.JFrame {
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
         configuraTela("editar");
         this.flag=1;
+        /*if(tblProdutos.getSelectedRowCount()==1){
+            int i = tblProdutos.getSelectedRow();
+            cId.setText(controller.getModeloTabela().getValueAt(i, 0).toString());
+            cNome.setText(controller.getModeloTabela().getValueAt(i, 1).toString());
+            cPreco.setText(controller.getModeloTabela().getValueAt(i, 2).toString());
+            cEstoque.setText(controller.getModeloTabela().getValueAt(i, 3).toString());
+        }*/
     }//GEN-LAST:event_btEditarActionPerformed
 
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
-        controller.delete(cId.getText());
-        cConsulta.setText(controller.mostraTudo());
-        limpardados();
-        configuraTela("inicio");
+/*        if(tblProdutos.getSelectedRowCount()==1){
+            cId.setText(controller.getModeloTabela().getValueAt(tblProdutos.getSelectedRow(), 0).toString());
+        }
+        try{
+            int confirma = JOptionPane.showConfirmDialog(this, "Excluir o Produto " + controller.getModeloTabela().getValueAt(tblProdutos.getSelectedRow(), 1).toString() +"?");
+            if(confirma==0){
+                controller.delete(cId.getText());
+                limpardados();
+                configuraTela("inicio");
+                tblProdutos.repaint();
+               // cLista.setText(controller.lista());
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Erro ao excluir!");
+        }*/
     }//GEN-LAST:event_btDeletarActionPerformed
+
+    private void tblProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdutosMouseClicked
+        btEditar.setEnabled(true);
+        btDeletar.setEnabled(true);
+        btNovo.setEnabled(false);
+        btCancelar.setEnabled(true);
+        btPesquisar.setEnabled(false);
+    }//GEN-LAST:event_tblProdutosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -372,7 +439,7 @@ public class ProdutoView extends javax.swing.JFrame {
             cNome.setEditable(false);
             cPreco.setEditable(false);
             cEstoque.setEditable(false);
-            cConsulta.setEditable(false);
+          //  cConsulta.setEditable(false);
         } else {
             if(modo=="novo"){
                 btNovo.setEnabled(false);
@@ -387,7 +454,7 @@ public class ProdutoView extends javax.swing.JFrame {
                 cNome.setEditable(true);
                 cPreco.setEditable(true);
                 cEstoque.setEditable(true);
-                cConsulta.setEditable(false);
+             //   cConsulta.setEditable(false);
             }
             else if(modo=="pesquisar"){
                 btNovo.setEnabled(false);
@@ -402,7 +469,7 @@ public class ProdutoView extends javax.swing.JFrame {
                 cNome.setEditable(false);
                 cPreco.setEditable(false);
                 cEstoque.setEditable(false);
-                cConsulta.setEditable(false);
+               // cConsulta.setEditable(false);
             } else if(modo=="ok"){
                 btNovo.setEnabled(false);
                 btPesquisar.setEnabled(false);
@@ -416,7 +483,7 @@ public class ProdutoView extends javax.swing.JFrame {
                 cNome.setEditable(false);
                 cPreco.setEditable(false);
                 cEstoque.setEditable(false);
-                cConsulta.setEditable(false);
+              //  cConsulta.setEditable(false);
             } else if(modo=="editar"){
                 btNovo.setEnabled(false);
                 btPesquisar.setEnabled(false);
@@ -430,7 +497,7 @@ public class ProdutoView extends javax.swing.JFrame {
                 cNome.setEditable(true);
                 cPreco.setEditable(true);
                 cEstoque.setEditable(true);
-                cConsulta.setEditable(false);
+               // cConsulta.setEditable(false);
             }
         }
     }
@@ -444,7 +511,6 @@ public class ProdutoView extends javax.swing.JFrame {
     private javax.swing.JButton btOk;
     private javax.swing.JButton btPesquisar;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JTextArea cConsulta;
     private javax.swing.JTextField cEstoque;
     private javax.swing.JTextField cId;
     private javax.swing.JTextField cNome;
@@ -454,10 +520,11 @@ public class ProdutoView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel painelBotoes;
     private javax.swing.JPanel painelConsulta;
     private javax.swing.JPanel painelDados;
     private javax.swing.JPanel painelTitulo;
+    private javax.swing.JTable tblProdutos;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,13 +1,16 @@
 package Controller;
 
 import Model.Produto;
+import Model.ProdutoTM;
 import java.util.LinkedList;
 
 public class ProdutoController {
     LinkedList <Produto> dados;
+    ProdutoTM modelotabela;
     
     public ProdutoController(){
         dados = new LinkedList <Produto> ();
+        modelotabela = new ProdutoTM(dados);
     }
     
     public boolean insere(int id, String nome, float preco, float estoque){
@@ -88,6 +91,10 @@ public class ProdutoController {
             retorno+=dados.get(i).getQuantidade()+"\n";
         }
         return retorno;
+    }
+
+    public ProdutoTM getModeloTabela() {
+        return modelotabela;
     }
     
 }
